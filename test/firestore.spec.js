@@ -22,8 +22,7 @@ describe('registerUserBD', () => {
   it('Should register a new user in Firestore DB', () => registerUserBD('1234-Git', {
     name: 'Git456',
     email: 'git456@gmail.com',
-  })
-    .then(() => getUsers())
+  }).then(() => getUsers())
     .then((data) => {
       const result = data.find(user => user.name === 'Git456');
       expect(result).toMatchObject({ name: 'Git456' });

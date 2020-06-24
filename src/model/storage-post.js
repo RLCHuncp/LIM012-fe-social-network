@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { storage } from '../firebaseInit.js';
 
 export const uploadImage = (file) => {

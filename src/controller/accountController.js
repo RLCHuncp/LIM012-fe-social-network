@@ -1,4 +1,4 @@
-// import { auth } from 'firebase-admin';
+/* eslint-disable no-console */
 import { views } from '../view/index.js';
 import {
   signOut, getCurrentUser, updateImgCoverUser, getInfoUserBD,
@@ -6,7 +6,7 @@ import {
 import { post, setStatePrivacity } from '../view/post.js';
 import { getAllPostsBD } from '../model/post.model.js';
 import { createPost } from './postController.js';
-import { emojiEvent, coverDefault } from './utils.js';
+import { emojiEvent, coverDefault, emptyPosts } from './utils.js';
 import { uploadImage } from '../model/storage-post.js';
 
 export default (page) => {
@@ -138,11 +138,15 @@ export default (page) => {
 
 
   window.unsubscribe = getAllPostsBD(page).onSnapshot((querySnapshot) => {
-    divPostsContainer.innerHTML = '';
+    // console.log(querySnapshot.isEmpty, querySnapshot.size);
+    divPostsContainer.innerHTML = querySnapshot.size === 0 ? emptyPosts : '';
     querySnapshot.forEach((doc) => {
       // console.log(`${doc.id} => ${doc.data().textContent}`);
       divPostsContainer.appendChild(post(doc.data(), doc.id));
     });
+    if (!window.unsubscribe) {
+      divPostsContainer.innerHTML = emptyPosts;
+    }
   });
 
   return currentView;

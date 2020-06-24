@@ -40,10 +40,7 @@ export const editCommentBD = (id, data) => db.collection('comments').doc(id).upd
 export const deleteCommentBD = id => db.collection('comments').doc(id).delete()
   .then(() => console.log('Comment eliminado'))
   .catch(() => console.log('Error'));
-// export const createlikeBD = likeObj => db.collection('likes')
-//   .add(likeObj)
-//   .then(() => console.log('Funcionando LIKE!!!'))
-//   .catch(err => console.log('ERROR LIKE', err));
+
 
 export const createlikeBD = (postId, likes) => db.collection('posts').doc(postId)
   .update({ likes })
@@ -51,11 +48,3 @@ export const createlikeBD = (postId, likes) => db.collection('posts').doc(postId
   .catch(err => console.log('ERROR LIKE', err));
 
 export const removeLike = id => db.collection('likes').doc(id).delete();
-
-// export const checkLike = (userId, postId) => db.collection('likes').where('postId', '==', postId).where('userId', '==', userId)
-//   .get()
-//   .then((querySnapshot) => {
-//     querySnapshot.forEach((doc) => {
-//       result = doc.data();
-//     });
-//   });
