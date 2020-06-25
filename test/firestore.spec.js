@@ -27,7 +27,7 @@ describe('addCommentBD', () => {
   it('Should add a comment in Firestore DB collection', done => addCommentBD({ textContent: 'hola mundo', postId: 'post_1' })
     .then(() => getDocs((data) => {
       const result = data.find(comment => comment.textContent === 'hola mundo');
-      // console.log('result add => ', result);
+      console.log('result add => ', result);
       expect(result).toMatchObject({ textContent: 'hola mundo', postId: 'post_1' });
       done();
     }, 'comments')));
@@ -38,7 +38,7 @@ describe('editCommentBD', () => {
     done => editCommentBD('comment01', { textContent: 'manzana', postId: 'post_2' })
       .then(() => getDocs((data) => {
         const result = data.find(comment => comment.id === 'comment01');
-        // console.log('result edit => ', result);
+        console.log('result edit => ', result);
         expect(result.textContent).toBe('manzana');
         done();
       }, 'comments')));
@@ -50,7 +50,7 @@ describe('deleteCommentBD', () => {
     done => deleteCommentBD('comment_1')
       .then(() => getDocs((data) => {
         const result = data.find(comment => comment.id === 'comment_1');
-        // console.log('result delete => ', result);
+        console.log('result delete => ', result);
         expect(result).toBeUndefined();
         done();
       }, 'comments')));

@@ -14,7 +14,6 @@ const eventSignUp = (event) => {
   };
   createUser(user)
     .then(() => {
-      // console.log(res);
       registerUserBD(auth.currentUser.uid, { coverPhoto: '', aboutMe: '' });
       sendConfirmationEmail();
       window.location.hash = '#/email';

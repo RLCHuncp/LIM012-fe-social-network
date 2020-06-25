@@ -18,9 +18,6 @@ export const createUser = user => auth.createUserWithEmailAndPassword(user.email
     registerUserBD(auth.currentUser.uid, { coverPhoto: coverDefault, aboutMe: '' });
   }));
 
-
-export const getUsers = () => db.collection('users').get().then(snapshot => objToArray(snapshot.data));
-
 export const sendConfirmationEmail = () => auth.currentUser.sendEmailVerification();
 
 export const signInWithGoogle = () => {
@@ -34,15 +31,8 @@ export const signInWithFacebook = () => {
 };
 
 
-export const signOut = () => {
-  firebase.auth().signOut()
-    .then(() => {
-      window.location.hash = '#/login';
-    });
-};
+export const signOut = () => firebase.auth().signOut()
+  .then(() => true);
+  // .catch(err => new Error(err));
 
-
-export const updateImgCoverUser = (url, id) => {
-  console.log(url, id);
-  db.collection('users').doc(id).update({ coverPhoto: url });
-};
+export const updateImgCoverUser = (url, id) => db.collection('users').doc(id).update({ coverPhoto: url });

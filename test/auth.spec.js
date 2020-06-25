@@ -5,6 +5,7 @@ import {
   signInWithGoogle,
   signInWithFacebook,
   sendConfirmationEmail,
+  signOut,
 } from '../src/model/user.model.js';
 
 
@@ -34,5 +35,14 @@ describe('Function signInWithFacebook', () => {
   it('Debería iniciar sesión con facebook', () => signInWithFacebook()
     .then((user) => {
       expect(user.isAnonymous).toBe(false);
+    }));
+});
+describe('Function signOut', () => {
+  it('Debería iniciar sesión con facebook', () => signOut()
+    .then((result) => {
+      console.log(result);
+      expect(result).toBe(true);
+    }).catch((err) => {
+      throw err;
     }));
 });
