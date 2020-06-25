@@ -15,7 +15,7 @@ Eco-chat es una red social dirigida a la población en general especialmente a l
 
 ![Desktop](src/img/img-readme/registrarse-d.PNG)
 ![Desktop](src/img/img-readme/perfil-d.PNG)
-![Desktop](src/img/img-readme/inicio-d.PNG)
+![Desktop](src/img/img-readme/publico-2.PNG)
 ![Desktop](src/img/img-readme/publico.PNG)
 
 ## **FUNCIONALIDAD**
