@@ -2,11 +2,8 @@
 import { auth, db } from '../firebaseInit.js';
 
 export const createPostBD = postObj => db.collection('posts')
-  .add(postObj)
-  .then(() => console.log('se creo post con exito'))
-  .catch(err => console.log('hubo error al crear post', err));
+  .add(postObj);
 
-// export const getAllPostsBD = (route) => db.collection('posts').orderBy('date');
 export const getAllPostsBD = (route) => {
   const collectionRef = db.collection('posts');
   let result;
@@ -18,16 +15,21 @@ export const getAllPostsBD = (route) => {
   return result;
 };
 
-export const deletePostBD = id => db.collection('posts').doc(id).delete()
-  .then(() => console.log('Post eliminado!!'))
-  .catch(() => console.log('Error al eliminar post!!'));
+export const getDocs = (callback, collection) => db.collection(collection)
+  .onSnapshot((querySnapshot) => {
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      data.push({ id: doc.id, ...doc.data() });
+    });
+    callback(data);
+  });
+
+
+export const deletePostBD = id => db.collection('posts').doc(id).delete();
 
 export const getPostBD = id => db.collection('posts').doc(id).get();
 
-export const updatePostBD = (id, data) => db.collection('posts').doc(id).update(data)
-  .then(() => console.log('Los cambios se guardaron exitosamente'))
-  .catch(err => console.log('No se pudo guardar los cambios', err));
-
+export const updatePostBD = (id, data) => db.collection('posts').doc(id).update(data);
 
 // COMMENTS
 
@@ -35,16 +37,14 @@ export const addCommentBD = commentObj => db.collection('comments').add(commentO
 
 export const getAllCommentsBD = postId => db.collection('comments').where('postId', '==', postId).orderBy('date', 'desc');
 
+
 export const editCommentBD = (id, data) => db.collection('comments').doc(id).update(data);
 
-export const deleteCommentBD = id => db.collection('comments').doc(id).delete()
-  .then(() => console.log('Comment eliminado'))
-  .catch(() => console.log('Error'));
+export const deleteCommentBD = id => db.collection('comments').doc(id).delete();
 
+// LIKES
 
 export const createlikeBD = (postId, likes) => db.collection('posts').doc(postId)
-  .update({ likes })
-  .then(() => console.log('Funcionando LIKE!!!'))
-  .catch(err => console.log('ERROR LIKE', err));
+  .update({ likes });
 
 export const removeLike = id => db.collection('likes').doc(id).delete();

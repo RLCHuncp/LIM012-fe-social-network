@@ -32,14 +32,7 @@
   }
   .modal-footer{  
     display: flex;
-    justify-content: space-between;
-    .family-btn{
-      display: flex;
-      flex-direction: row;
-      button{
-        @extend %ordinary-btn;
-      }      
-    }
+    justify-content: space-between;  
   }
 }
 .modal-delete{
@@ -48,6 +41,7 @@
 .modal-edit{
   max-width: 600px;
 }
+
 // moda de confirmacion para eliminar
 //modal para editar publicacion
 .modal{
@@ -62,7 +56,6 @@
       @include square-size(2em);
     }
     div[contenteditable]{
-      // autofocus:"autofocus";
       max-height: 200px;
       text-align: left;
       overflow: hidden;
@@ -80,9 +73,3 @@
     position: absolute;
   }
 }
-
-
-// .modal.active{
-//   opacity: 1;
-//   transform: scale(1);
-// }
