@@ -8,7 +8,6 @@ export const getUserBD = id => db.collection('users').doc(id).get();
 
 export const signInUser = user => auth.signInWithEmailAndPassword(user.email, user.password);
 
-// export const updateImgCoverUser = (url, id) => db.collection('users').doc(id).update({ coverPhoto: url });
 
 export const updateUserBD = (userId, data) => db.collection('users').doc(userId).update(data);
 
