@@ -930,8 +930,6 @@ section.content .create-post-container .btn-container .post-btn {
   font-size: 1em;
 }
 
-<<<<<<< Updated upstream
-=======
 .empty-posts {
   height: 500px;
   display: flex;
@@ -949,7 +947,6 @@ section.content .create-post-container .btn-container .post-btn {
   height: max-content;
 }
 
->>>>>>> Stashed changes
 @media (min-width: 768px) and (max-width: 1024px) {
   section.content {
     width: 80%;
