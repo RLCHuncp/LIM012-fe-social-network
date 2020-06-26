@@ -7,6 +7,7 @@ import {
   signInWithFacebook,
   registerUserBD,
   coverDefault,
+  profileDefault,
 } from '../model/user.model.js';
 
 import {
@@ -42,7 +43,13 @@ const eventGoogle = (event) => {
   event.preventDefault();
   signInWithGoogle()
     .then((res) => {
-      registerUserBD(res.user.uid, { coverPhoto: coverDefault, aboutMe: '' });
+      const userObj = {
+        coverPhoto: coverDefault,
+        userPhoto: profileDefault,
+        userName: auth.currentUser.displayName,
+        aboutMe: '',
+      };
+      registerUserBD(res.user.uid, userObj);
       window.location.hash = '#/home';
     })
     .catch();
@@ -52,7 +59,13 @@ const eventFacebook = (event) => {
   event.preventDefault();
   signInWithFacebook()
     .then((res) => {
-      registerUserBD(res.user.uid, { coverPhoto: coverDefault, aboutMe: '' });
+      const userObj = {
+        coverPhoto: coverDefault,
+        userPhoto: profileDefault,
+        userName: auth.currentUser.displayName,
+        aboutMe: '',
+      };
+      registerUserBD(res.user.uid, userObj);
       window.location.hash = '#/home';
     })
     .catch();

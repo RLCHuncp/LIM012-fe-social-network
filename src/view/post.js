@@ -232,15 +232,17 @@ const editComment = (id, divcomment) => {
   });
 };
 
-const renderComments = (commentObj, commentId) => {
+const renderComment = (userObj, commentObj, commentId) => {
+  const myPhoto = commentObj.userId === auth.currentUser.uid ? 'my-photo' : '';
+  const myName = commentObj.userId === auth.currentUser.uid ? 'my-name' : '';
   const divComment = document.createElement('div');
   divComment.classList.add('comment-created');
   // añadirle el id del comment generado por firebase
   divComment.id = commentId;
   divComment.innerHTML = `
-  <img src="${commentObj.photoUser}" class="post-user-photo">
+  <img src="${userObj.userPhoto}" class="post-user-photo ${myPhoto}">
   <span class="comment">
-    <strong> ${commentObj.nameUser}</strong>
+    <strong class="${myName}"> ${userObj.userName}</strong>
     <span class="comment-text">
       ${commentObj.textContent}
     </span>
@@ -279,18 +281,19 @@ const renderComments = (commentObj, commentId) => {
 // Template de cada post que se crea, es llamado por el snapshot,
 // aqui mismo tiene definido eventos que podra realizar ciertos elementos como botones,
 // dropdown, etc
-export const post = (postObj, postId) => {
+export const renderPost = (userObj, postObj, postId) => {
   const liked = postObj.likes.includes(auth.currentUser.uid);
-
+  const myPhoto = postObj.idUser === auth.currentUser.uid ? 'my-photo' : '';
+  const myName = postObj.idUser === auth.currentUser.uid ? 'my-name' : '';
   const divPost = document.createElement('div');
   divPost.classList.add('post');
   divPost.id = postId;
   divPost.innerHTML = `
     <div class="post-header border">
-      <img loading="lazy" src="${postObj.photoUser}" class="icon-photo-user">       
+      <img loading="lazy" src="${userObj.userPhoto}" class="icon-photo-user ${myPhoto}">       
       <div class="name-date-post">
         <div>
-          <span class="name-user">${postObj.nameUser}</span>
+          <span class="name-user ${myName}">${userObj.userName}</span>
           ${dropdownDots(postObj.idUser)}
         </div>
         <small>${(postObj.date ? postObj.date.toDate() : new Date()).toLocaleString()}</small>
@@ -311,7 +314,7 @@ export const post = (postObj, postId) => {
     </div>
     <div class="post-comments ">    
       <div class="create-comment-container border">
-        <img src="${auth.currentUser.photoURL}" class="post-user-photo">
+        <img src="${userObj.userPhoto}" class="post-user-photo ${myPhoto}">
         <div class="text-area-comment">
           <div class="input-comment" contenteditable data-placeholder="Escribe un comentario"></div>
           ${emojis('right')}
@@ -344,7 +347,7 @@ export const post = (postObj, postId) => {
   getAllCommentsBD(postId).onSnapshot((querySnapshot) => {
     commentsContainer.innerHTML = '';
     querySnapshot.forEach((comment) => {
-      commentsContainer.appendChild(renderComments(comment.data(), comment.id));
+      commentsContainer.appendChild(renderComment(userObj, comment.data(), comment.id));
     });
   });
 

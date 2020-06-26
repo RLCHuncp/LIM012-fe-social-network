@@ -2,7 +2,7 @@
 // import { auth } from 'firebase-admin';
 import { views } from '../view/index.js';
 import {
-  signOut, updateImgCoverUser, getInfoUserBD,
+  signOut, updateUserBD, getUserBD,
 } from '../model/user.model.js';
 import { renderPost, setStatePrivacity } from '../view/post.js';
 
@@ -23,10 +23,10 @@ export default (page) => {
   }
   const currentView = views.accountView(user, page);
 
-  getInfoUserBD(user.uid)
+  getUserBD(user.uid)
     .then((doc) => {
       const coverPhoto = currentView.querySelector('.user-photo-cover');
-      console.log(doc.id, doc.data().coverPhoto);
+      // console.log(doc.id, doc.data().coverPhoto);
       coverPhoto.src = doc.data().coverPhoto;
     });
 
@@ -126,6 +126,20 @@ export default (page) => {
     }
   });
 
+
+  const updateName = (newName) => {
+    const allNames = currentView.querySelectorAll('.my-name');
+    allNames.forEach((name) => {
+      name.textContent = newName;
+    });
+  };
+  const updatePhoto = (newPhoto) => {
+    const allPhotos = currentView.querySelectorAll('.my-photo');
+    allPhotos.forEach((photo) => {
+      photo.textContent = newPhoto;
+    });
+  };
+
   if (page === 'profile') {
     const btnEditProfile = currentView.querySelector('.edit-profile');
     const btnCancel = currentView.querySelector('#cancel');
@@ -156,10 +170,12 @@ export default (page) => {
         event.target.classList.remove('main-btn');
         nameUser.setAttribute('contenteditable', false);
         event.target.innerHTML = '<i class="far fa-edit"></i>Editar Perfil';
+        updateUserBD(auth.currentUser.uid, { userName: nameUser.textContent });
         auth.currentUser.updateProfile({
           displayName: nameUser.textContent,
         });
         event.target.id = 'edit';
+        updateName(nameUser.textContent);
       }
     });
   }
@@ -175,13 +191,16 @@ export default (page) => {
         .then((url) => {
           console.log('Se esta actualizando foto de portada');
           if (event.target.id === 'cover') {
-            updateImgCoverUser(url, user.uid);
+            // updateImgCoverUser(url, user.uid);
+            updateUserBD(user.uid, { coverPhoto: url });
             const coverImg = currentView.querySelector('.user-photo-cover');
             coverImg.setAttribute('src', url);
           } else if (event.target.id === 'profile') {
+            updateUserBD(user.uid, { userPhoto: url });
             auth.currentUser.updateProfile({ photoURL: url });
             const photoUser = currentView.querySelector('.photo-user');
             photoUser.setAttribute('src', url);
+            updatePhoto(url);
           }
         });
     });
@@ -207,10 +226,14 @@ export default (page) => {
 
   window.unsubscribe = getAllPosts(page).orderBy('date', 'asc')
     .onSnapshot((querySnapshot) => {
-      divPostsContainer.innerHTML = '';
+      divPostsContainer.innerHTML = querySnapshot.size === 0 ? emptyPosts : '';
       querySnapshot.forEach((doc) => {
-        // console.log(`${doc.id} => ${doc.data().textContent}`);
-        divPostsContainer.appendChild(renderPost(doc.data(), doc.id));
+        // console.log(`${doc.id} => ${doc.data()}`);
+        getUserBD(doc.data().idUser)
+          .then((userObj) => {
+            // console.log('USUARIO: ', userObj.data());
+            divPostsContainer.appendChild(renderPost(userObj.data(), doc.data(), doc.id));
+          });
       });
     });
   return currentView;
