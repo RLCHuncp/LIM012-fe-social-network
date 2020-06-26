@@ -128,12 +128,14 @@ export default (page) => {
 
 
   const updateName = (newName) => {
+    console.log('se actualizara todos los nombres');
     const allNames = currentView.querySelectorAll('.my-name');
     allNames.forEach((name) => {
       name.textContent = newName;
     });
   };
   const updatePhoto = (newPhoto) => {
+    console.log('se actualizara todas las fotos');
     const allPhotos = currentView.querySelectorAll('.my-photo');
     allPhotos.forEach((photo) => {
       photo.textContent = newPhoto;
@@ -189,14 +191,14 @@ export default (page) => {
     event.target.addEventListener('change', (e) => {
       uploadImage(e.target.files[0])
         .then((url) => {
-          console.log('Se esta actualizando foto de portada');
           if (event.target.id === 'cover') {
-            // updateImgCoverUser(url, user.uid);
-            updateUserBD(user.uid, { coverPhoto: url });
+            updateUserBD(user.uid, { coverPhoto: url })
+              .then(() => console.log('se actulizo foto de portada'));
             const coverImg = currentView.querySelector('.user-photo-cover');
             coverImg.setAttribute('src', url);
           } else if (event.target.id === 'profile') {
-            updateUserBD(user.uid, { userPhoto: url });
+            updateUserBD(user.uid, { userPhoto: url })
+              .then(() => console.log('se actulizo foto de perfil'));
             auth.currentUser.updateProfile({ photoURL: url });
             const photoUser = currentView.querySelector('.photo-user');
             photoUser.setAttribute('src', url);

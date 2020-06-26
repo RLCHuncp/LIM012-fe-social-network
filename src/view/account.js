@@ -5,11 +5,11 @@ export default (user, page) => {
   <div class="my-self">
     <div class="photos-user">
       <input type="file" accept="image/*" class="upload-img-profile" id="cover" hidden="hidden">
-      <i class='bx bxs-camera camera-icon' id="update-cover"></i>
+      <i class='bx bxs-camera camera-icon ${page === 'home' ? 'hidden' : ''}' id="update-cover"></i>
       <img loading="lazy" src="" class="user-photo-cover">
       <div id="photo-user-container">
         <img loading="lazy" src=${user.photoURL} class="photo-user">
-        <i class='bx bxs-camera camera-icon' id="update-profile"></i>
+        <i class='bx bxs-camera camera-icon ${page === 'home' ? 'hidden' : ''}' id="update-profile"></i>
       </div>
     </div>
     <div class="info-user">
