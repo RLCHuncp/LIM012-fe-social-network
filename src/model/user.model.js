@@ -8,18 +8,15 @@ export const getInfoUserBD = id => db.collection('users').doc(id).get();
 
 export const signInUser = user => auth.signInWithEmailAndPassword(user.email, user.password);
 
+export const updateImgCoverUser = (url, id) => db.collection('users').doc(id).update({ coverPhoto: url });
+
 export const registerUserBD = (idUser, data) => db.collection('users').doc(idUser).set(data);
 
 export const createUser = user => auth.createUserWithEmailAndPassword(user.email, user.password)
   .then(() => auth.currentUser.updateProfile({
     displayName: user.name,
     photoURL: profileDefault,
-  }).then(() => {
-    registerUserBD(auth.currentUser.uid, { coverPhoto: coverDefault, aboutMe: '' });
   }));
-
-
-export const getUsers = () => db.collection('users').get().then(snapshot => objToArray(snapshot.data));
 
 export const sendConfirmationEmail = () => auth.currentUser.sendEmailVerification();
 
@@ -34,15 +31,5 @@ export const signInWithFacebook = () => {
 };
 
 
-export const signOut = () => {
-  firebase.auth().signOut()
-    .then(() => {
-      window.location.hash = '#/login';
-    });
-};
-
-
-export const updateImgCoverUser = (url, id) => {
-  console.log(url, id);
-  db.collection('users').doc(id).update({ coverPhoto: url });
-};
+export const signOut = () => firebase.auth().signOut()
+  .then(() => true);

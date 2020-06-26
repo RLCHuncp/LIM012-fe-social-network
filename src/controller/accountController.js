@@ -4,12 +4,14 @@ import { views } from '../view/index.js';
 import {
   signOut, updateImgCoverUser, getInfoUserBD,
 } from '../model/user.model.js';
-import { post, setStatePrivacity } from '../view/post.js';
-import { getAllPostsBD } from '../model/post.model.js';
+import { renderPost, setStatePrivacity } from '../view/post.js';
+
+// import { getAllPostsBD } from '../model/post.model.js';
+// import { showPostsOnHome, showPostsOnProfile } from '../model/post.model.js';
 import { createPost } from './postController.js';
-import { emojiEvent } from '../utils/utils.js';
+import { emojiEvent, emptyPosts } from '../utils/utils.js';
 import { uploadImage } from '../model/storage-post.js';
-import { auth } from '../firebaseInit.js';
+import { auth, db } from '../firebaseInit.js';
 
 export default (page) => {
   // llama a la BD para mostrar todos los post registrados
@@ -73,7 +75,9 @@ export default (page) => {
 
 
   const btnSalir = currentView.querySelector('#btn-salir');
-  btnSalir.addEventListener('click', signOut);
+  btnSalir.addEventListener('click', () => {
+    signOut();
+  });
 
   // evento que escucha al input para ver si hay algo que
   // publicar de ser asi, activa el boton de publicar
@@ -193,14 +197,21 @@ export default (page) => {
     uploadImgProfile.click();
   });
 
+  const getAllPosts = (which) => {
+    if (which === 'home') {
+      return db.collection('posts').where('privacity', '==', 'public');
+    }
+    return db.collection('posts').where('idUser', '==', auth.currentUser.uid);
+  };
 
-  window.unsubscribe = getAllPostsBD(page).onSnapshot((querySnapshot) => {
-    divPostsContainer.innerHTML = '';
-    querySnapshot.forEach((doc) => {
-      // console.log(`${doc.id} => ${doc.data().textContent}`);
-      divPostsContainer.appendChild(post(doc.data(), doc.id));
+
+  window.unsubscribe = getAllPosts(page).orderBy('date', 'asc')
+    .onSnapshot((querySnapshot) => {
+      divPostsContainer.innerHTML = '';
+      querySnapshot.forEach((doc) => {
+        // console.log(`${doc.id} => ${doc.data().textContent}`);
+        divPostsContainer.appendChild(renderPost(doc.data(), doc.id));
+      });
     });
-  });
-
   return currentView;
 };

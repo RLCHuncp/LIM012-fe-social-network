@@ -930,6 +930,26 @@ section.content .create-post-container .btn-container .post-btn {
   font-size: 1em;
 }
 
+<<<<<<< Updated upstream
+=======
+.empty-posts {
+  height: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  padding: 1em;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: rgba(142, 150, 150, 0.521);
+  justify-content: center;
+  align-items: center;
+}
+.empty-posts img {
+  width: max-content;
+  height: max-content;
+}
+
+>>>>>>> Stashed changes
 @media (min-width: 768px) and (max-width: 1024px) {
   section.content {
     width: 80%;

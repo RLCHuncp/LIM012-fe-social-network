@@ -1,47 +1,117 @@
+/* eslint-disable import/first */
 /* eslint-disable no-console */
 import './firebase';
 import MockFirebase from 'mock-cloud-firestore';
-import { fixtureData } from './fixtureData.js';
+
+import { registerUserBD, updateImgCoverUser } from '../src/model/user.model.js';
 
 import {
   addCommentBD, editCommentBD, deleteCommentBD,
-  createPostBD, updatePostBD, deletePostBD, getDocs,
+  createPostBD, updatePostBD, deletePostBD, getDocs, getPostBD,
 } from '../src/model/post.model.js';
 
-// import { getUsers, registerUserBD } from '../src/model/user.model.js';
+const fixtureData = {
+  __collection__: {
+    comments: {
+      __doc__: {
+        comment1: {
+          textContent: 'holiholiholi',
+          postId: 'post_1',
+          userId: 'user_1',
+        },
+        comment2: {
+          textContent: 'holiholiholi',
+          postId: 'post_1',
+          userId: 'user_1',
+        },
+        comment3: {
+          textContent: 'holiholiholi',
+          postId: 'post_1',
+          userId: 'user_1',
+        },
+      },
+    },
+    // users: {
+    //   __doc__: {
+    //     user_1: {
+    //       coverPhoto: '',
+    //       aboutMe: '',
+    //     },
+    //     user_2: {
+    //       coverPhoto: '',
+    //       aboutMe: '',
+    //     },
+    //     user_3: {
+    //       coverPhoto: '',
+    //       aboutMe: '',
+    //     },
+    //   },
+    // },
+    // posts: {
+    //   __doc__: {
+    //     post_1: {
+    //       idUser: 'user_1',
+    //       textContent: 'primer post user_a',
+    //       imageContent: '',
+    //       privacity: 'public',
+    //       likes: ['user_1', 'user_2'],
+    //       date: '20/05/20',
+    //     },
+    //     post_2: {
+    //       idUser: 'user_2',
+    //       textContent: 'segundo post user_a',
+    //       imageContent: '',
+    //       privacity: 'private',
+    //       likes: ['user_1', 'user_2', 'user_3'],
+    //       date: '25/05/20',
+    //     },
+    //     post_3: {
+    //       idUser: 'user_1',
+    //       textContent: 'Hello Workd',
+    //       imageContent: '',
+    //       privacity: 'public',
+    //       likes: ['user_1', 'user_2', 'user_3'],
+    //       date: '25/05/20',
+    //     },
+    //   },
+    // },
+  },
+};
+
 
 global.firebase = new MockFirebase(fixtureData, { isNaiveSnapshotListenerEnabled: true });
 
-describe('addCommentBD', () => {
-  it('Should add a comment in Firestore DB collection', done => addCommentBD({ textContent: 'hola mundo', postId: 'post_1' })
-    .then(() => getDocs((data) => {
-      const result = data.find(comment => comment.textContent === 'hola mundo');
-      // console.log('result add => ', result);
-      expect(result).toMatchObject({ textContent: 'hola mundo', postId: 'post_1' });
-      done();
-    }, 'comments')));
-});
-
-describe('editCommentBD', () => {
-  it('Should edit a comment in Firestore DB collection',
-    done => editCommentBD('comment01', { textContent: 'manzana', postId: 'post_2' })
-      .then(() => getDocs((data) => {
-        const result = data.find(comment => comment.id === 'comment01');
-        // console.log('result edit => ', result);
-        expect(result.textContent).toBe('manzana');
+describe('Function CRUD Comments', () => {
+  it('Should add a comment in Firestore DB collection', done => addCommentBD({ textContent: 'hola mundo', postId: 'post1' })
+    .then(() => {
+      const callback = (docs) => {
+        console.log('los docs son => ', docs);
+        const result = docs.find(comment => comment.textContent === 'hola mundo');
+        console.log('resultado es:', result);
+        expect(result.textContent).toBe('hola mundo');
         done();
-      }, 'comments')));
-});
-
-describe('deleteCommentBD', () => {
-  it('Should delete a comment from Firestore DB collection',
-    done => deleteCommentBD('comment_1')
-      .then(() => getDocs((data) => {
-        const result = data.find(comment => comment.id === 'comment_1');
-        // console.log('result delete => ', result);
+      };
+      getDocs(callback, 'comments');
+    }));
+  it('Should delete a comment from Firestore DB collection', done => deleteCommentBD('comment1')
+    .then(() => {
+      const callback = (docs) => {
+        console.log('docs es  => ', docs);
+        const result = docs.find(comment => comment.id === 'comment1');
         expect(result).toBeUndefined();
         done();
-      }, 'comments')));
+      };
+      getDocs(callback, 'comments');
+    }));
+
+  // it('Should edit a comment in Firestore DB collection',
+  //   done => editCommentBD('comment_1', { textContent: 'manzana' })
+  //     .then(() => getDocs((data) => {
+  //       const result = data.find(comment => comment.id === 'comment_1');
+  //       // console.log('edit comment=> ', result);
+  //       expect(result.textContent).toBe('manzana');
+  //       done();
+  //     }, 'comments')));
 });
 
 
@@ -93,17 +163,34 @@ describe('deletePostBD', () => {
         }, 'posts'));
     });
 });
+describe('Update likes in a post', () => {
+  it('Should return a specific post ',
+    () => {
+      getPostBD('post_3')
+        .then(() => getDocs((data) => {
+          // console.log('data =>', data);
+          const result = data.find(post => (post.id === 'post_3'));
+          // console.log('result delete post => ', result);
+          expect(result).toMatchObject({ id: 'post_3' });
+        }, 'posts'));
+    });
+});
 
 // USERS
 
-// describe('registerUserBD', () => {
-//   it('Should register a new user in Firestore DB', () => registerUserBD('1234-Git', {
-//     name: 'Git456',
-//     email: 'git456@gmail.com',
-//   })
-//     .then(() => getUsers())
-//     .then((data) => {
-//       const result = data.find(user => user.name === 'Git456');
-//       expect(result).toMatchObject({ name: 'Git456' });
-//     }));
-// });
+describe('Function to create and update on user collection', () => {
+  it('Should register data of a new user in Firestore DB', () => registerUserBD('user_1', { coverPhoto: '/img/photo.jpg', aboutMe: '' })
+    .then(() => getDocs((data) => {
+      // console.log(data);
+      const result = data.find(user => user.id === 'user_1');
+      // console.log(result);
+      expect(result).toMatchObject({ id: 'user_1' });
+    }, 'users')));
+  it('Should update cover photo of a user in Firestore DB', () => updateImgCoverUser('/img/photo2.jpg', 'user_1')
+    .then(() => getDocs((data) => {
+      // console.log(data);
+      const result = data.find(user => user.id === 'user_1');
+      // console.log(result);
+      expect(result).toMatchObject({ id: 'user_1', coverPhoto: '/img/photo2.jpg' });
+    }, 'users')));
+});

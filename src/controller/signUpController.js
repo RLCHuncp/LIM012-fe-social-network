@@ -1,4 +1,4 @@
-import { createUser, sendConfirmationEmail, registerUserBD} from '../model/user.model.js';
+import { createUser, sendConfirmationEmail, registerUserBD, coverDefault } from '../model/user.model.js';
 
 import { signUpFormValidation, hidePwd, showPwd } from '../utils/utils.js';
 
@@ -14,8 +14,7 @@ const eventSignUp = (event) => {
   };
   createUser(user)
     .then(() => {
-      // console.log(res);
-      registerUserBD(auth.currentUser.uid, { coverPhoto: '', aboutMe: '' });
+      registerUserBD(auth.currentUser.uid, { coverPhoto: coverDefault, aboutMe: '' });
       sendConfirmationEmail();
       window.location.hash = '#/email';
       event.target.reset();

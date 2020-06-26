@@ -4,16 +4,16 @@
 //     users: {
 //       __doc__: {
 //         user_1: {
-//           name: 'Luna123',
-//           email: 'lunachan@gmail.com',
+//           coverPhoto: '',
+//           aboutMe: '',
 //         },
 //         user_2: {
-//           name: 'Luna123',
-//           email: 'usuario2@gmail.com',
+//           coverPhoto: '',
+//           aboutMe: '',
 //         },
 //         user_3: {
-//           name: 'Luna123',
-//           email: 'usuario3@gmail.com',
+//           coverPhoto: '',
+//           aboutMe: '',
 //         },
 //       },
 //     },
@@ -25,29 +25,24 @@
 //           imageContent: '',
 //           privacity: 'public',
 //           likes: ['user_1', 'user_2'],
+//           date: '20/05/20',
 //         },
 //         post_2: {
-//           idUser: 'user_1',
+//           idUser: 'user_2',
 //           textContent: 'segundo post user_a',
 //           imageContent: '',
 //           privacity: 'private',
 //           likes: ['user_1', 'user_2', 'user_3'],
+//           date: '25/05/20',
 //         },
 //         post_3: {
-//           idUser: 'user_2',
-//           textContent: 'primer post user_b',
+//           idUser: 'user_1',
+//           textContent: 'Hello Workd',
 //           imageContent: '',
 //           privacity: 'public',
-//           likes: ['user_1', 'user_3'],
+//           likes: ['user_1', 'user_2', 'user_3'],
+//           date: '25/05/20',
 //         },
-//         post_4: {
-//           idUser: 'user_2',
-//           textContent: 'segundo post user_b',
-//           imageContent: '',
-//           privacity: 'private',
-//           likes: ['user_1', 'user_2'],
-//         },
-
 //       },
 //     },
 //     comments: {
