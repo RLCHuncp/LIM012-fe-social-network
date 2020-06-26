@@ -8,6 +8,7 @@ import {
   registerUserBD,
   coverDefault,
   profileDefault,
+  getUserBD,
 } from '../model/user.model.js';
 
 import {
@@ -43,13 +44,19 @@ const eventGoogle = (event) => {
   event.preventDefault();
   signInWithGoogle()
     .then((res) => {
-      const userObj = {
-        coverPhoto: coverDefault,
-        userPhoto: profileDefault,
-        userName: auth.currentUser.displayName,
-        aboutMe: '',
-      };
-      registerUserBD(res.user.uid, userObj);
+      getUserBD(res.user.uid)
+        .then((user) => {
+          if (!user) {
+            console.log('logueandose por primera vez');
+            const userObj = {
+              coverPhoto: coverDefault,
+              userPhoto: profileDefault,
+              userName: auth.currentUser.displayName,
+              aboutMe: '',
+            };
+            registerUserBD(res.user.uid, userObj);
+          }
+        });
       window.location.hash = '#/home';
     })
     .catch();
@@ -59,13 +66,19 @@ const eventFacebook = (event) => {
   event.preventDefault();
   signInWithFacebook()
     .then((res) => {
-      const userObj = {
-        coverPhoto: coverDefault,
-        userPhoto: profileDefault,
-        userName: auth.currentUser.displayName,
-        aboutMe: '',
-      };
-      registerUserBD(res.user.uid, userObj);
+      getUserBD(res.user.uid)
+        .then((user) => {
+          if (!user) {
+            console.log('logueandose por primera vez');
+            const userObj = {
+              coverPhoto: coverDefault,
+              userPhoto: profileDefault,
+              userName: auth.currentUser.displayName,
+              aboutMe: '',
+            };
+            registerUserBD(res.user.uid, userObj);
+          }
+        });
       window.location.hash = '#/home';
     })
     .catch();
