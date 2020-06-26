@@ -79,6 +79,47 @@ const fixtureData = {
 };
 
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+describe('registerUserBD', () => {
+  it('Should register a new user in Firestore DB', () => registerUserBD('1234-Git', {
+    name: 'Git456',
+    email: 'git456@gmail.com',
+  }).then(() => getUsers())
+    .then((data) => {
+      const result = data.find(user => user.name === 'Git456');
+      expect(result).toMatchObject({ name: 'Git456' });
+    }));
+=======
+describe('addCommentBD', () => {
+  it('Should add a comment in Firestore DB collection', done => addCommentBD({ textContent: 'hola mundo', postId: 'post_1' })
+    .then(() => getDocs((data) => {
+      const result = data.find(comment => comment.textContent === 'hola mundo');
+      console.log('result add => ', result);
+      expect(result).toMatchObject({ textContent: 'hola mundo', postId: 'post_1' });
+      done();
+    }, 'comments')));
+});
+
+describe('editCommentBD', () => {
+  it('Should edit a comment in Firestore DB collection',
+    done => editCommentBD('comment01', { textContent: 'manzana', postId: 'post_2' })
+      .then(() => getDocs((data) => {
+        const result = data.find(comment => comment.id === 'comment01');
+        console.log('result edit => ', result);
+        expect(result.textContent).toBe('manzana');
+        done();
+      }, 'comments')));
+>>>>>>> c5087b36089c4ebbacadfe10c2beef249cb18e65
+});
+
+describe('deleteCommentBD', () => {
+  it('Should delete a comment from Firestore DB collection',
+    done => deleteCommentBD('comment_1')
+      .then(() => getDocs((data) => {
+        const result = data.find(comment => comment.id === 'comment_1');
+        console.log('result delete => ', result);
+=======
 global.firebase = new MockFirebase(fixtureData, { isNaiveSnapshotListenerEnabled: true });
 
 describe('Function CRUD Comments', () => {
@@ -98,6 +139,7 @@ describe('Function CRUD Comments', () => {
       const callback = (docs) => {
         console.log('docs es  => ', docs);
         const result = docs.find(comment => comment.id === 'comment1');
+>>>>>>> 5d11606fc59886003d5252a89107d64b4e87286b
         expect(result).toBeUndefined();
         done();
       };

@@ -76,7 +76,10 @@ export default (page) => {
 
   const btnSalir = currentView.querySelector('#btn-salir');
   btnSalir.addEventListener('click', () => {
-    signOut();
+    signOut()
+      .then(() => {
+        window.location.hash = '#/login';
+      });
   });
 
   // evento que escucha al input para ver si hay algo que

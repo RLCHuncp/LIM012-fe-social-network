@@ -85,7 +85,8 @@ export default (user, page) => {
       </section>
       <section class="posts-section">
         ${sectionCreatePost}
-        <div class="posts-container"></div>
+        <div class="posts-container">
+        </div>
       </section>
     </section>`;
 

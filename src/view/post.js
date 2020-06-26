@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { auth } from '../firebaseInit.js';
 import {
-  createlikeBD, deletePostBD, updatePostBD, getAllCommentsBD, editCommentBD, deleteCommentBD,
+  updateLikeBD, deletePostBD, updatePostBD, getAllCommentsBD, editCommentBD, deleteCommentBD,
 } from '../model/post.model.js';
 import { createCommentObj } from '../controller/postController.js';
 import { emojis, emojiEvent } from '../utils/utils.js';
@@ -365,12 +365,12 @@ export const renderPost = (userObj, postObj, postId) => {
     const index = postObj.likes.indexOf(auth.currentUser.uid);
     if (index > -1) {
       postObj.likes.splice(index, 1);
-      createlikeBD(postId, postObj.likes);
+      updateLikeBD(postId, postObj.likes);
       e.target.classList.add('liked');
     } else {
       postObj.likes.push(String(auth.currentUser.uid));
       e.target.classList.remove('liked');
-      createlikeBD(postId, postObj.likes);
+      updateLikeBD(postId, postObj.likes);
     }
   });
 

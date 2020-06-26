@@ -19,7 +19,7 @@ export const getPostBD = id => db.collection('posts').doc(id).get();
 
 export const updatePostBD = (id, data) => db.collection('posts').doc(id).update(data);
 
-export const createlikeBD = (postId, likes) => db.collection('posts').doc(postId).update({ likes });
+export const updateLikeBD = (postId, likes) => db.collection('posts').doc(postId).update({ likes });
 
 // COMMENTS
 

@@ -931,7 +931,6 @@ section.content .create-post-container .btn-container .post-btn {
 }
 
 .empty-posts {
-  height: 500px;
   display: flex;
   flex-wrap: wrap;
   text-align: center;
@@ -940,11 +939,12 @@ section.content .create-post-container .btn-container .post-btn {
   font-weight: 600;
   color: rgba(142, 150, 150, 0.521);
   justify-content: center;
-  align-items: center;
+}
+.empty-posts span {
+  width: 100%;
 }
 .empty-posts img {
-  width: max-content;
-  height: max-content;
+  margin: 2em 0;
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
