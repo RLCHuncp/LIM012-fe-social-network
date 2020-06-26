@@ -38,11 +38,17 @@ describe('Function signInWithFacebook', () => {
     }));
 });
 describe('Function signOut', () => {
+<<<<<<< HEAD
   it('Debería iniciar sesión con facebook', () => signOut()
     .then((result) => {
       console.log(result);
       expect(result).toBe(true);
     }).catch((err) => {
       throw err;
+=======
+  it('LogOut ', () => signOut()
+    .then((result) => {
+      expect(result).toBe(true);
+>>>>>>> 5d11606fc59886003d5252a89107d64b4e87286b
     }));
 });

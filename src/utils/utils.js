@@ -227,3 +227,6 @@ export const emojiEvent = (container, nameClassInput, btn, nameClassBtn) => {
     });
   });
 };
+
+const post = 'https://firebasestorage.googleapis.com/v0/b/red-social-32aa8.appspot.com/o/eco-chat%2Ficons8-comentarios-96.png?alt=media&token=9d8ade53-dbeb-4f2d-b5d2-9c8e9ecbaf9a';
+export const emptyPosts = `<div class="post empty-posts"> <span>No tienes publicaciones aún </span><img src="${post}"></div>`;
