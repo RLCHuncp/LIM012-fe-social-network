@@ -70,22 +70,9 @@
   border: none;
   padding: 0.5em;
   border-radius: 5px;
-  font-weight: bold;
 }
 .btn-n:hover {
   cursor: pointer;
-}
-
-.modal .modal-header i:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-}
-
-.ordinary-btn {
-  cursor: pointer;
-  background: white;
-  color: #0CA385;
-  border: 1px solid #0CA385;
 }
 
 * {
@@ -192,34 +179,7 @@ input, button, textarea {
   background: whitesmoke;
 }
 
-.main-btn {
-  background: #0CA385;
-  color: whitesmoke;
-}
 
-.btn-n {
-  font-weight: bold;
-  margin: 0.2em;
-  border: none;
-  padding: 0.5em;
-  border-radius: 5px;
-  font-weight: bold;
-}
-.btn-n:hover {
-  cursor: pointer;
-}
-
-.modal .modal-header i:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-}
-
-.ordinary-btn {
-  cursor: pointer;
-  background: white;
-  color: #0CA385;
-  border: 1px solid #0CA385;
-}
 
 .screen {
   display: flex;
@@ -290,34 +250,8 @@ input, button, textarea {
   background: whitesmoke;
 }
 
-.main-btn {
-  background: #0CA385;
-  color: whitesmoke;
-}
 
-.btn-n {
-  font-weight: bold;
-  margin: 0.2em;
-  border: none;
-  padding: 0.5em;
-  border-radius: 5px;
-  font-weight: bold;
-}
-.btn-n:hover {
-  cursor: pointer;
-}
 
-.modal .modal-header i:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-}
-
-.ordinary-btn {
-  cursor: pointer;
-  background: white;
-  color: #0CA385;
-  border: 1px solid #0CA385;
-}
 
 header {
   z-index: 10;
@@ -476,34 +410,9 @@ header nav ul li {
   background: whitesmoke;
 }
 
-.main-btn {
-  background: #0CA385;
-  color: whitesmoke;
-}
 
-.btn-n {
-  font-weight: bold;
-  margin: 0.2em;
-  border: none;
-  padding: 0.5em;
-  border-radius: 5px;
-  font-weight: bold;
-}
-.btn-n:hover {
-  cursor: pointer;
-}
 
-.modal .modal-header i:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-}
 
-.ordinary-btn {
-  cursor: pointer;
-  background: white;
-  color: #0CA385;
-  border: 1px solid #0CA385;
-}
 
 .post-user-photo {
   width: 2em;
@@ -1038,34 +947,9 @@ section.content .create-post-container .btn-container .post-btn {
   background: whitesmoke;
 }
 
-.main-btn {
-  background: #0CA385;
-  color: whitesmoke;
-}
 
-.btn-n {
-  font-weight: bold;
-  margin: 0.2em;
-  border: none;
-  padding: 0.5em;
-  border-radius: 5px;
-  font-weight: bold;
-}
-.btn-n:hover {
-  cursor: pointer;
-}
 
-.modal .modal-header i:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-}
 
-.ordinary-btn {
-  cursor: pointer;
-  background: white;
-  color: #0CA385;
-  border: 1px solid #0CA385;
-}
 
 .screen-background {
   background-image: url("https://firebasestorage.googleapis.com/v0/b/red-social-32aa8.appspot.com/o/eco-chat%2Fback1.jpg?alt=media&token=fe7ad64c-0e68-4628-852e-a14228d86534");
@@ -1393,34 +1277,8 @@ section.content .create-post-container .btn-container .post-btn {
   background: whitesmoke;
 }
 
-.main-btn {
-  background: #0CA385;
-  color: whitesmoke;
-}
 
-.btn-n {
-  font-weight: bold;
-  margin: 0.2em;
-  border: none;
-  padding: 0.5em;
-  border-radius: 5px;
-  font-weight: bold;
-}
-.btn-n:hover {
-  cursor: pointer;
-}
 
-.modal .modal-header i:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-}
-
-.ordinary-btn {
-  cursor: pointer;
-  background: white;
-  color: #0CA385;
-  border: 1px solid #0CA385;
-}
 
 .modal {
   opacity: 0;
@@ -1466,6 +1324,10 @@ section.content .create-post-container .btn-container .post-btn {
 .modal .modal-header {
   display: flex;
   justify-content: space-between;
+}
+.modal .modal-header i:hover {
+  cursor: pointer;
+  transform: scale(1.2);
 }
 .modal .modal-body {
   display: flex;
@@ -1551,34 +1413,7 @@ section.content .create-post-container .btn-container .post-btn {
   background: whitesmoke;
 }
 
-.main-btn {
-  background: #0CA385;
-  color: whitesmoke;
-}
 
-.btn-n {
-  font-weight: bold;
-  margin: 0.2em;
-  border: none;
-  padding: 0.5em;
-  border-radius: 5px;
-  font-weight: bold;
-}
-.btn-n:hover {
-  cursor: pointer;
-}
-
-.modal .modal-header i:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-}
-
-.ordinary-btn {
-  cursor: pointer;
-  background: white;
-  color: #0CA385;
-  border: 1px solid #0CA385;
-}
 
 .emoji-dropdown {
   position: relative;

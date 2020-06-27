@@ -3,7 +3,6 @@
 
 
 .modal{
-  // visibility: hidden;
   opacity: 0;
   transform: scale(0.7);
   transition: .3s ease all;
@@ -44,11 +43,15 @@
 
 // moda de confirmacion para eliminar
 //modal para editar publicacion
+
 .modal{
   .modal-header{
     display: flex;
     justify-content: space-between;
-    i{ @extend %grow; }
+    i:hover{
+      cursor: pointer;
+      transform: scale(1.2);
+    }
   }
   .modal-body{
     display: flex;      

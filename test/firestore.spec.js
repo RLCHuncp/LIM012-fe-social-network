@@ -179,12 +179,9 @@ describe('Update likes in a post', () => {
 describe('Function to create and update on user collection', () => {
   it('Should register data of a new user in Firestore DB', () => registerUserBD('user_1', { coverPhoto: '/img/photo.jpg', aboutMe: '' })
     .then(() => getDocs((data) => {
-      // console.log(data);
       const result = data.find(user => user.id === 'user_1');
-      // console.log(result);
       expect(result).toMatchObject({ id: 'user_1' });
     }, 'users')));
-
   it('Should update cover photo of a user in Firestore DB', () => updateUserBD('user_1', { coverPhoto: '/img/photo2.jpg' })
     .then(() => getDocs((data) => {
       const result = data.find(user => user.id === 'user_1');
