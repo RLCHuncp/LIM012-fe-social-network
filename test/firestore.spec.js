@@ -6,7 +6,7 @@ import MockFirebase from 'mock-cloud-firestore';
 import { registerUserBD, updateUserBD } from '../src/model/user.model.js';
 
 import {
-  addCommentBD, editCommentBD, deleteCommentBD,
+  addCommentBD, deleteCommentBD,
   createPostBD, updatePostBD, deletePostBD, getDocs, getPostBD,
 } from '../src/model/post.model.js';
 

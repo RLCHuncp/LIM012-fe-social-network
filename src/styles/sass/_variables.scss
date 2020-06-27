@@ -73,8 +73,6 @@ $color-btn-disabled:rgb(110, 240, 214);
 }
 
 .ordinary-btn{
-  // font-weight: bold;
-  // margin: .2em;
   color: $primary-color;
   background: whitesmoke;
  
@@ -89,26 +87,13 @@ $color-btn-disabled:rgb(110, 240, 214);
   border: none;
   padding: .5em;
   border-radius: 5px;
-  font-weight: bold;
   &:hover{
     cursor: pointer;
   }
 }
 
 %grow{
-  &:hover{
-    cursor: pointer;
-    transform: scale(1.2);
-  }
-}
-
-
-.ordinary-btn{
   cursor: pointer;
-  background: white;
-  color:$primary-color;
-  border: 1px solid $primary-color;
+  transform: scale(1.2);
 }
-
-
 

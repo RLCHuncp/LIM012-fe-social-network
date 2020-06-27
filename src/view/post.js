@@ -3,6 +3,8 @@ import { auth } from '../firebaseInit.js';
 import {
   updateLikeBD, deletePostBD, updatePostBD, getAllCommentsBD, editCommentBD, deleteCommentBD,
 } from '../model/post.model.js';
+
+import { getUserBD } from '../model/user.model.js';
 import { createCommentObj } from '../controller/postController.js';
 import { emojis, emojiEvent } from '../utils/utils.js';
 
@@ -314,7 +316,7 @@ export const renderPost = (userObj, postObj, postId) => {
     </div>
     <div class="post-comments ">    
       <div class="create-comment-container border">
-        <img src="${userObj.userPhoto}" class="post-user-photo ${myPhoto}">
+        <img src="${auth.currentUser.photoURL}" class="post-user-photo ${myPhoto}">
         <div class="text-area-comment">
           <div class="input-comment" contenteditable data-placeholder="Escribe un comentario"></div>
           ${emojis('right')}
@@ -347,7 +349,10 @@ export const renderPost = (userObj, postObj, postId) => {
   getAllCommentsBD(postId).onSnapshot((querySnapshot) => {
     commentsContainer.innerHTML = '';
     querySnapshot.forEach((comment) => {
-      commentsContainer.appendChild(renderComment(userObj, comment.data(), comment.id));
+      getUserBD(comment.data().userId)
+        .then((user) => {
+          commentsContainer.appendChild(renderComment(user.data(), comment.data(), comment.id));
+        });
     });
   });
 
