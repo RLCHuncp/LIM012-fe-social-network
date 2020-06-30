@@ -5,6 +5,7 @@ import {
   signInWithGoogle,
   signInWithFacebook,
   sendConfirmationEmail,
+  signOut,
 } from '../src/model/user.model.js';
 
 import { signInFormValidation } from '../src/controller/utils.js';
@@ -15,10 +16,7 @@ describe('Function signInUser()', () => {
       expect(user.isAnonymous).toBe(false);
     }));
 });
-// curren user is:  {
-//   isAnonymous: false,
-//   providerData: [ GoogleAuthProvider { providerId: 'google.com' } ]
-// }
+
 describe('Function createUser()', () => {
   it('Debería enviar una mensaje de verificación al usuario que se ha registrado', () => {
     createUser('lucy@gmail.com', '123456')
@@ -38,5 +36,11 @@ describe('Function signInWithFacebook', () => {
   it('Debería iniciar sesión con facebook', () => signInWithFacebook()
     .then((user) => {
       expect(user.isAnonymous).toBe(false);
+    }));
+});
+describe('Function signOut', () => {
+  it('LogOut ', () => signOut()
+    .then((result) => {
+      expect(result).toBe(true);
     }));
 });

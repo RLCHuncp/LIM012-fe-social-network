@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-// import { signInView } from '../view/signIn.js';
 import { views } from '../view/index.js';
 
 import {
@@ -7,12 +6,15 @@ import {
   signInWithGoogle,
   signInWithFacebook,
   registerUserBD,
+  coverDefault,
+  profileDefault,
+  getUserBD,
 } from '../model/user.model.js';
 
 import {
   signInFormValidation,
   sendMessage, hidePwd, showPwd,
-} from './utils.js';
+} from '../utils/utils.js';
 
 import { auth } from '../firebaseInit.js';
 
@@ -42,7 +44,19 @@ const eventGoogle = (event) => {
   event.preventDefault();
   signInWithGoogle()
     .then((res) => {
-      registerUserBD(res.user.uid, { coverPhoto: '', aboutMe: '' });
+      getUserBD(res.user.uid)
+        .then((user) => {
+          if (!user) {
+            console.log('logueandose por primera vez');
+            const userObj = {
+              coverPhoto: coverDefault,
+              userPhoto: profileDefault,
+              userName: auth.currentUser.displayName,
+              aboutMe: '',
+            };
+            registerUserBD(res.user.uid, userObj);
+          }
+        });
       window.location.hash = '#/home';
     })
     .catch();
@@ -52,7 +66,19 @@ const eventFacebook = (event) => {
   event.preventDefault();
   signInWithFacebook()
     .then((res) => {
-      registerUserBD(res.user.uid, { coverPhoto: '', aboutMe: '' });
+      getUserBD(res.user.uid)
+        .then((user) => {
+          if (!user) {
+            console.log('logueandose por primera vez');
+            const userObj = {
+              coverPhoto: coverDefault,
+              userPhoto: profileDefault,
+              userName: auth.currentUser.displayName,
+              aboutMe: '',
+            };
+            registerUserBD(res.user.uid, userObj);
+          }
+        });
       window.location.hash = '#/home';
     })
     .catch();

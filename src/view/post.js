@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 import { auth } from '../firebaseInit.js';
 import {
-  createlikeBD, deletePostBD, updatePostBD, getAllCommentsBD, editCommentBD, deleteCommentBD,
+  updateLikeBD, deletePostBD, updatePostBD, getAllCommentsBD, editCommentBD, deleteCommentBD,
 } from '../model/post.model.js';
-import { createCommentObj } from '../controller/postController.js';
-import { emojis, emojiEvent } from '../controller/utils.js';
 
+import { getUserBD } from '../model/user.model.js';
+import { createCommentObj } from '../controller/postController.js';
+import { emojis, emojiEvent } from '../utils/utils.js';
 
 // funcion que permite visualizar la opcion q elegimos en el dropdown de privacidad,
 // este funcionn se usa en el dropdown para crear un post como tbm en la ventana modal al editar
@@ -17,32 +18,27 @@ export const setStatePrivacity = type => `<i class="bx ${type === 'public' ? 'bx
 const modalDelete = (type) => {
   const divDelete = document.createElement('div');
   divDelete.classList.add('modal', 'modal-delete');
-  divDelete.innerHTML = `
-  <div class="modal-header">
-  ¿Eliminar ${type === 'post' ? 'publicación' : 'comentario'}?
-  </div>
-  <div class="modal-body">
-    ${type === 'post' ? 'Estas segur@ de querer eliminar está publicación, al eliminar ya no podra ser recuperada.'
+  divDelete.innerHTML = `<div class="modal-header">
+    ¿Eliminar ${type === 'post' ? 'publicación' : 'comentario'}?
+    </div>
+    <div class="modal-body">
+      ${type === 'post' ? 'Estas segur@ de querer eliminar está publicación, al eliminar ya no podra ser recuperada.'
     : '¿Segur@ que quieres eliminar este comentario?'}
-  </div>
-  <div class="modal-footer">
-    <button id="cancel" class="ordinary-btn">Cancelar</button>
-    <button id="delete" class="main-btn">Eliminar</button>
-  </div>`;
+    </div>
+    <div class="modal-footer">
+      <button id="cancel" class="btn-n ordinary-btn">Cancelar</button>
+      <button id="delete" class="btn-n main-btn">Eliminar</button>
+    </div>`;
   return divDelete;
 };
 
 // template de la ventana modal para editar un post existente
 // los datos que se le pasan son los del post que se quieren editar
 const modalEdit = (message, privacyState) => {
-  // console.log(`Este Post es => ${privacyState}`);
   const divEdit = document.createElement('div');
   divEdit.classList.add('modal', 'modal-edit');
   divEdit.innerHTML = `
-      <div class="modal-header">
-        Editar publicación
-        <i class='bx bx-x pointer' id="close"></i>
-      </div>
+      <div class="modal-header">Editar publicación <i class='bx bx-x pointer' id="close"></i></div>
       <div class="modal-body">
         <img src="${auth.currentUser.photoURL}" class="post-user-photo">
         <div contenteditable class="edit-area"> 
@@ -53,9 +49,9 @@ const modalEdit = (message, privacyState) => {
       </div>
       <div class="modal-footer"> 
         ${emojis('left')}
-        <div class="family-btn">
+        <div class="family-btn flex">
         <div class="dropdown">
-          <button class="privacy ordinary-btn" id="${privacyState}">
+          <button class="privacy btn-n ordinary-btn" id="${privacyState}">
             ${setStatePrivacity(privacyState)}
           </button>        
           <ul class="dropdown-menu right hidden">
@@ -63,7 +59,7 @@ const modalEdit = (message, privacyState) => {
             <li id="private"><i class='bx bxs-lock-alt' ></i>Privado</li>
           </ul>
         </div> 
-        <button id="save" class="main-btn">Guardar</button>
+        <button id="save" class="btn-n main-btn">Guardar</button>
         </div>
       </div>`;
 
@@ -238,15 +234,17 @@ const editComment = (id, divcomment) => {
   });
 };
 
-const renderComments = (commentObj, commentId) => {
+const renderComment = (userObj, commentObj, commentId) => {
+  const myPhoto = commentObj.userId === auth.currentUser.uid ? 'my-photo' : '';
+  const myName = commentObj.userId === auth.currentUser.uid ? 'my-name' : '';
   const divComment = document.createElement('div');
   divComment.classList.add('comment-created');
   // añadirle el id del comment generado por firebase
   divComment.id = commentId;
   divComment.innerHTML = `
-  <img src="${commentObj.photoUser}" class="post-user-photo">
+  <img src="${userObj.userPhoto}" class="post-user-photo ${myPhoto}">
   <span class="comment">
-    <strong> ${commentObj.nameUser}</strong>
+    <strong class="${myName}"> ${userObj.userName}</strong>
     <span class="comment-text">
       ${commentObj.textContent}
     </span>
@@ -285,18 +283,19 @@ const renderComments = (commentObj, commentId) => {
 // Template de cada post que se crea, es llamado por el snapshot,
 // aqui mismo tiene definido eventos que podra realizar ciertos elementos como botones,
 // dropdown, etc
-export const post = (postObj, postId) => {
+export const renderPost = (userObj, postObj, postId) => {
   const liked = postObj.likes.includes(auth.currentUser.uid);
-
+  const myPhoto = postObj.idUser === auth.currentUser.uid ? 'my-photo' : '';
+  const myName = postObj.idUser === auth.currentUser.uid ? 'my-name' : '';
   const divPost = document.createElement('div');
   divPost.classList.add('post');
   divPost.id = postId;
   divPost.innerHTML = `
     <div class="post-header border">
-      <img loading="lazy" src="${postObj.photoUser}" class="icon-photo-user">       
+      <img loading="lazy" src="${userObj.userPhoto}" class="icon-photo-user ${myPhoto}">       
       <div class="name-date-post">
         <div>
-          <span class="name-user">${postObj.nameUser}</span>
+          <span class="name-user ${myName}">${userObj.userName}</span>
           ${dropdownDots(postObj.idUser)}
         </div>
         <small>${(postObj.date ? postObj.date.toDate() : new Date()).toLocaleString()}</small>
@@ -317,7 +316,7 @@ export const post = (postObj, postId) => {
     </div>
     <div class="post-comments ">    
       <div class="create-comment-container border">
-        <img src="${auth.currentUser.photoURL}" class="post-user-photo">
+        <img src="${auth.currentUser.photoURL}" class="post-user-photo ${myPhoto}">
         <div class="text-area-comment">
           <div class="input-comment" contenteditable data-placeholder="Escribe un comentario"></div>
           ${emojis('right')}
@@ -350,7 +349,10 @@ export const post = (postObj, postId) => {
   getAllCommentsBD(postId).onSnapshot((querySnapshot) => {
     commentsContainer.innerHTML = '';
     querySnapshot.forEach((comment) => {
-      commentsContainer.appendChild(renderComments(comment.data(), comment.id));
+      getUserBD(comment.data().userId)
+        .then((user) => {
+          commentsContainer.appendChild(renderComment(user.data(), comment.data(), comment.id));
+        });
     });
   });
 
@@ -368,12 +370,12 @@ export const post = (postObj, postId) => {
     const index = postObj.likes.indexOf(auth.currentUser.uid);
     if (index > -1) {
       postObj.likes.splice(index, 1);
-      createlikeBD(postId, postObj.likes);
+      updateLikeBD(postId, postObj.likes);
       e.target.classList.add('liked');
     } else {
       postObj.likes.push(String(auth.currentUser.uid));
       e.target.classList.remove('liked');
-      createlikeBD(postId, postObj.likes);
+      updateLikeBD(postId, postObj.likes);
     }
   });
 
